@@ -1,17 +1,14 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
 
     [SerializeField]
-    public float reloadTime;
-
+    float reloadTime;
+    
     public Transform towerTransform;
 
     public GameManager gameManager {get; set;}
@@ -100,9 +97,11 @@ public class PlayerController : MonoBehaviour
                     projectileThrustBar.fillAmount = projectileThrust / maxProjectileThrust;
                 }
 
-                if(Input.GetKeyDown(KeyCode.Space)) {
+                if(canFire && Input.GetKeyDown(KeyCode.Space)) {
+                    canFire = false;
                     audioManager.PlayFireSound();
                     proyectileSpawner.SpawnProyectile(projectileThrust, audioManager);
+                    gameManager.PlayerFiredShot();
                 }       
             }
            

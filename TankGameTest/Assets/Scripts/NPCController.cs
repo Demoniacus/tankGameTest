@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class NPCController : MonoBehaviour
 {
-
+    [SerializeField]
+    Transform towerTransform;
     public float range;
 
     public Transform spawnPoint;
@@ -24,14 +26,23 @@ public class NPCController : MonoBehaviour
 
     private bool isFiring;
 
+    private ProyectileSpawner proyectileSpawner;
+
+    private float projectileThrust, minProjectileThrust, maxProjectileThrust;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
+        projectileThrust = 150f;
+        minProjectileThrust = 20f;
+        maxProjectileThrust = 220f;
         hasMoved = false;
         isFiring = false;
         gameStarted = false;
-        navMeshAgent = GetComponent<NavMeshAgent>();
+        navMeshAgent = GetComponent<NavMeshAgent>();    
+        proyectileSpawner = GetComponentInChildren<ProyectileSpawner>(); 
     }
 
     // Update is called once per frame
@@ -46,7 +57,8 @@ public class NPCController : MonoBehaviour
                 }
             }
             if(canFire && !isFiring) {
-                isFiring = true;
+                isFiring = true;    
+                canFire = false;
                 StartCoroutine(FireShot());
             }
         }
@@ -64,13 +76,19 @@ public class NPCController : MonoBehaviour
 
     }
 
-    IEnumerator FireShot() { 
-
-        //Duration of the shooting
+    IEnumerator FireShot() {
         yield return new WaitForSeconds(3f);
-        gameManager.NPCFiredShot();
+        Rotate();        
+        yield return new WaitForSeconds(0.8f);
+        ElevateTower();        
+        yield return new WaitForSeconds(0.8f);
+        IncreasePower();
+        audioManager.PlayFireSound();
+        proyectileSpawner.SpawnProyectile(projectileThrust, audioManager);
+        //Duration of the shooting
+        yield return new WaitForSeconds(1f);
+        gameManager.NPCFiredShot();        
         isFiring = false;
-
     }
 
     void OnCollisionEnter(Collision other){
@@ -81,5 +99,19 @@ public class NPCController : MonoBehaviour
         }
     }
 
+    private void Rotate() {
+        float newRotation = Random.Range(-20,20);
+        transform.Rotate(newRotation * Vector3.up);
+    }
+
+    private void ElevateTower() {        
+        float newElevation = Random.Range(-20,20);
+        towerTransform.Rotate(newElevation * Vector3.right);
+    }
+
+    private void IncreasePower() {
+        projectileThrust += Random.Range(-18,18);
+        projectileThrust = Mathf.Clamp(projectileThrust, minProjectileThrust, maxProjectileThrust);
+    }
 
 }

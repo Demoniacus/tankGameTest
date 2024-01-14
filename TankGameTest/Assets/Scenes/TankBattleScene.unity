@@ -498,6 +498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 842362a832b5a1c44ba432d41e4cdbae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  towerTransform: {fileID: 1886771465}
   range: 10
   spawnPoint: {fileID: 211584632}
 --- !u!195 &161974548
@@ -2128,7 +2129,10 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: a585611ad85093f4489696d06109a843, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 400004, guid: 2f36ff213ce19454f80e5be2bd75e2fd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 480006597}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 100002, guid: 2f36ff213ce19454f80e5be2bd75e2fd, type: 3}
       insertIndex: -1
@@ -2245,6 +2249,51 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 473667861}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &480006596
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 480006597}
+  - component: {fileID: 480006598}
+  m_Layer: 0
+  m_Name: ProjectileSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &480006597
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480006596}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.7071068, z: 0.7071068, w: 0}
+  m_LocalPosition: {x: 0.064, y: 2.577, z: -0.018}
+  m_LocalScale: {x: 2.0217805, y: 2.021781, z: 2.021781}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1886771465}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &480006598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480006596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a2671b7fdab6264eacb983e53e55bb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  proyectile: {fileID: 2594946426712837568, guid: 5637f7a98f3b3904ca73aebda43f00f3, type: 3}
 --- !u!1 &509190288
 GameObject:
   m_ObjectHideFlags: 0
@@ -2814,8 +2863,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 10, y: 1, z: 10}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 10, y: 0.5203396, z: 10}
+  m_Center: {x: 0, y: -0.2398302, z: 0}
 --- !u!1 &571130190
 GameObject:
   m_ObjectHideFlags: 0
@@ -5227,7 +5276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerText: {fileID: 362104009}
-  countDown: 15
+  countDown: 2
   gameManager: {fileID: 877960939}
 --- !u!114 &1240561579
 MonoBehaviour:
@@ -6150,6 +6199,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1128402471}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1490423255 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 730339605522957506, guid: 7802a33b7789e8342bd9435a0faddfd9, type: 3}
+  m_PrefabInstance: {fileID: 6635671426942016220}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1501369396
 GameObject:
   m_ObjectHideFlags: 0
@@ -7588,6 +7642,11 @@ Transform:
   - {fileID: 571130191}
   m_Father: {fileID: 1535108218}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1886771465 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400004, guid: 2f36ff213ce19454f80e5be2bd75e2fd, type: 3}
+  m_PrefabInstance: {fileID: 471472897}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1928004337
 GameObject:
   m_ObjectHideFlags: 0
@@ -7840,9 +7899,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 62f4590577dce8648a77187ff2aea589, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -8304,12 +8363,33 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4148897017551954000, guid: 7802a33b7789e8342bd9435a0faddfd9, type: 3}
   m_PrefabInstance: {fileID: 6635671426942016220}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1490423255}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b6f0aaf6010c294888aa305c22316d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &2111477018
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490423255}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.714798, y: 2.4452896, z: 6.742976}
+  m_Center: {x: -0.10610962, y: 1.3661346, z: -0.14677954}
 --- !u!1 &2135018085 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1931616275534915387, guid: 7802a33b7789e8342bd9435a0faddfd9, type: 3}
@@ -8508,10 +8588,17 @@ PrefabInstance:
       propertyPath: projectileThrustBar
       value: 
       objectReference: {fileID: 662082210}
+    - target: {fileID: 4295927609601180289, guid: 7802a33b7789e8342bd9435a0faddfd9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.733
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 730339605522957506, guid: 7802a33b7789e8342bd9435a0faddfd9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2111477018}
     - targetCorrespondingSourceObject: {fileID: 1931616275534915387, guid: 7802a33b7789e8342bd9435a0faddfd9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2135018087}

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -76,7 +74,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void NPCFiredShot () {
-        isPlayersTurn = false;
+        isPlayersTurn = true;
     }
 
 
@@ -101,7 +99,6 @@ public class GameManager : MonoBehaviour
     }
 
     public void RestartGame() {
-        print("AAS");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

@@ -14,66 +14,104 @@ public class PlayerController : MonoBehaviour
 
     public Transform towerTransform;
 
-    public AudioManager audioManager;
+    public GameManager gameManager {get; set;}
+    
+    public bool canFire  {get; set;}
 
-    private NavMeshAgent navMeshAgent;
+    public bool canMove  {get; set;}
 
-    private bool canMove;
+    public bool isMoving  {get; set;}
+
+    public bool gameStarted  {get; set;}
+
+    public AudioManager audioManager {get; set;}
+
+    public NavMeshAgent navMeshAgent  {get; private set;}
 
     private bool isPlayersTurn;
 
-    private float reloadTimeTimer;
+    public Image projectileThrustBar;
 
-    private bool isMoving;
+    private float projectileThrust, minProjectileThrust, maxProjectileThrust;
+
+
+    private ProyectileSpawner proyectileSpawner;
     // Start is called before the first frame update
     void Start()
     {
+        projectileThrust = 150f;
+        minProjectileThrust = 20f;
+        maxProjectileThrust = 220f;
         canMove = true;
         isPlayersTurn = true;
         Cursor.visible = true;
-        navMeshAgent = GetComponent<NavMeshAgent>();        
+        navMeshAgent = GetComponent<NavMeshAgent>();    
+        proyectileSpawner = GetComponentInChildren<ProyectileSpawner>(); 
+        projectileThrustBar.fillAmount = projectileThrust / maxProjectileThrust;   
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(isPlayersTurn){
+        if(isPlayersTurn && gameStarted){
             //Player Initial Movement Logic
             if(canMove) {
                 if(isMoving) {
                     if(navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance + 1.6f) {
-                        print("breakiiing");
-                        audioManager.playBreakingSound();
+                        audioManager.PlayBreakingSound();
                         isMoving = false;
                     }
 
                 }
                 //Check if player has pressed left click to move
                 if(Input.GetMouseButtonDown(0)) { 
-                    audioManager.playMovingSound();        
-                    StartCoroutine(movePlayer());
+                    audioManager.PlayMovingSound();        
+                    StartCoroutine(MovePlayer());
                 }
 
-            }
-            int isMovingLeft;
-            int isMovingUp;
-            //Checking if the player is rotating
-            if(IsRotatingTank(out isMovingLeft)) {
-                transform.Rotate(Vector3.up * isMovingLeft * 0.15f);
-            } 
-            //
-            else if (IsElevatingTower(out isMovingUp)) {
-                print(towerTransform.rotation.x);
-                if(towerTransform.rotation.x >= 0 && towerTransform.rotation.x <= 45) {
-                    towerTransform.Rotate(Vector3.right * isMovingUp * 0.15f);
+            } else {
+                int isMovingLeft, isMovingUp;
+                float increasedPower;
+                //Checking if the player is rotating
+                if(IsRotatingTank(out isMovingLeft)) {
+                    transform.Rotate(0.15f * isMovingLeft * Vector3.up);
+                    //towerTransform.Rotate(0.15f * isMovingLeft * Vector3.forward);
+                } 
+                //
+                else if (IsElevatingTower(out isMovingUp)) {
+                    towerTransform.Rotate(0.15f * isMovingUp * Vector3.right);
+                    /*Quaternion newRotation;
+                    newRotation = Quaternion.AngleAxis(isMovingUp*30, Vector3.right);
+                    print(newRotation);
+                    Quaternion q = Quaternion.Slerp(towerTransform.rotation, newRotation, Time.deltaTime);
+                    float angle = Quaternion.Angle(q, newRotation);
+                    print(angle);
+                    towerTransform.rotation = q;
+                    
+                    if((towerTransform.rotation.y < -1f && towerTransform.rotation.z < 0)|| (towerTransform.rotation.y > -0.7f && towerTransform.rotation.z < -0.7f)) {
+                        print("oN LIMIT");
+                        towerTransform.Rotate(-1 * 0.15f * isMovingUp * Vector3.right);
+                    } else {
+                        towerTransform.Rotate(0.15f * isMovingUp * Vector3.right);
+                    }*/
+                } else if(IsIncreasingPower(out increasedPower)) {
+                    projectileThrust += increasedPower;
+                    projectileThrust = Mathf.Clamp(projectileThrust, minProjectileThrust, maxProjectileThrust);
+                    projectileThrustBar.fillAmount = projectileThrust / maxProjectileThrust;
                 }
-            }           
+
+                if(Input.GetKeyDown(KeyCode.Space)) {
+                    audioManager.PlayFireSound();
+                    proyectileSpawner.SpawnProyectile(projectileThrust, audioManager);
+                }       
+            }
+           
         }
         
     }
 
     //This method moves the tank to the place clicked by the player
-    IEnumerator movePlayer() {
+    IEnumerator MovePlayer() {
         Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
                     RaycastHit hit;
                     if(Physics.Raycast(cameraRay, out hit, 150, LayerMask.GetMask("Terrain"))) {
@@ -104,6 +142,24 @@ public class PlayerController : MonoBehaviour
 
         //The player is not rotating the tank
         rotatingLeft = 0;
+        return false;
+    }
+
+    //Return true if the player is Rotating the tankwith the keys A or D, returns in as out the direction as well
+    private bool IsIncreasingPower(out float increasedPower) {
+        //If player is pressing the D key he is rotating the tank to the Right
+        if(Input.GetKey(KeyCode.Q)) {
+            increasedPower = 0.2f;
+            return true;
+        }        
+        //If player is pressing the A key he is rotating the tank to the Left
+        if(Input.GetKey(KeyCode.E)) {
+            increasedPower = -0.2f;
+            return true;
+        }
+
+        //The player is not rotating the tank
+        increasedPower = 0;
         return false;
     }
 

@@ -29,22 +29,30 @@ public class PlayerController : MonoBehaviour
 
     public Image projectileThrustBar;
 
+    public Image elevationBar;
+
     private float projectileThrust, minProjectileThrust, maxProjectileThrust;
 
 
     private ProyectileSpawner proyectileSpawner;
+
+    private float currentElevation, minElevation, maxElevation;
     // Start is called before the first frame update
     void Start()
     {
         projectileThrust = 150f;
         minProjectileThrust = 20f;
         maxProjectileThrust = 220f;
+        currentElevation = 0f;
+        minElevation = 0f;
+        maxElevation = 60f;
         canMove = true;
         isPlayersTurn = true;
         Cursor.visible = true;
         navMeshAgent = GetComponent<NavMeshAgent>();    
         proyectileSpawner = GetComponentInChildren<ProyectileSpawner>(); 
         projectileThrustBar.fillAmount = projectileThrust / maxProjectileThrust;   
+        elevationBar.fillAmount = currentElevation  / maxElevation / (1/0.225f);
     }
 
     // Update is called once per frame
@@ -76,21 +84,18 @@ public class PlayerController : MonoBehaviour
                 } 
                 //
                 else if (IsElevatingTower(out isMovingUp)) {
-                    towerTransform.Rotate(0.15f * isMovingUp * Vector3.right);
-                    /*Quaternion newRotation;
-                    newRotation = Quaternion.AngleAxis(isMovingUp*30, Vector3.right);
-                    print(newRotation);
-                    Quaternion q = Quaternion.Slerp(towerTransform.rotation, newRotation, Time.deltaTime);
-                    float angle = Quaternion.Angle(q, newRotation);
-                    print(angle);
-                    towerTransform.rotation = q;
-                    
-                    if((towerTransform.rotation.y < -1f && towerTransform.rotation.z < 0)|| (towerTransform.rotation.y > -0.7f && towerTransform.rotation.z < -0.7f)) {
-                        print("oN LIMIT");
-                        towerTransform.Rotate(-1 * 0.15f * isMovingUp * Vector3.right);
-                    } else {
-                        towerTransform.Rotate(0.15f * isMovingUp * Vector3.right);
-                    }*/
+                    //If I'm between the limits update tower elevation
+                    if(currentElevation >= minElevation && currentElevation <= maxElevation){
+                        UpdateTowerElevation(isMovingUp);
+                    } 
+                    //Else if I'm over the max elevation only update it if it is going down
+                    else if(currentElevation > maxElevation && isMovingUp == -1) {                        
+                        UpdateTowerElevation(isMovingUp);
+                    }                    
+                    //Else if I'm over the min elevation only update it if it is going up
+                    else if(currentElevation < minElevation && isMovingUp == 1) {                        
+                        UpdateTowerElevation(isMovingUp);
+                    } 
                 } else if(IsIncreasingPower(out increasedPower)) {
                     projectileThrust += increasedPower;
                     projectileThrust = Mathf.Clamp(projectileThrust, minProjectileThrust, maxProjectileThrust);
@@ -107,6 +112,13 @@ public class PlayerController : MonoBehaviour
            
         }
         
+    }
+
+    private void UpdateTowerElevation(float isMovingUp) {
+        float newElevation = 0.15f * isMovingUp;
+        currentElevation += newElevation;
+        towerTransform.Rotate(newElevation * Vector3.right);
+        elevationBar.fillAmount = currentElevation / maxElevation / (1/0.225f);
     }
 
     //This method moves the tank to the place clicked by the player

@@ -16,8 +16,8 @@ public class ProyectileLogic : MonoBehaviour
 
     void OnCollisionEnter(Collision other){
         //next - check if we have collided with anything but player/enemy
-        if(other.gameObject.tag == "Player"){
-            print("AAH Player HIT");
+        if(other.gameObject.tag == "Player"){            
+            Destroy(gameObject);
         }
         else if(other.gameObject.tag == "Enemy"){
             Destroy(gameObject);

@@ -24,12 +24,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     Timer timer;
 
-    private bool isPlayersTurn;
-
-    private bool arePlayersInMovingPhase;
-
-    private bool gameStarted;
-
     void Start() {
         InitializePlayers();
     }
@@ -37,8 +31,6 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         timer.StartTimer();
-        gameStarted = true;
-        arePlayersInMovingPhase = true;
         player.gameStarted = true;
         npc.gameStarted = true;
     }
@@ -55,13 +47,11 @@ public class GameManager : MonoBehaviour
     }
 
     public void PlayerFiredShot() {
-        isPlayersTurn = false;
         npc.canFire = true;
         _HUDmanager.IsEnemiesTurn();
     }
 
     public void NPCFiredShot () {
-        isPlayersTurn = true;
         player.canFire = true;
         _HUDmanager.IsPlayersTurn();
     }
@@ -74,8 +64,6 @@ public class GameManager : MonoBehaviour
             audioManager.PlayBreakingSound();
             player.navMeshAgent.isStopped = true;
         }
-        arePlayersInMovingPhase = false;
-        isPlayersTurn = true;
         player.canFire = true;
         _HUDmanager.FadeInPlayersTurnCanvas();
 

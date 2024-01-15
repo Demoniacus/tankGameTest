@@ -6,6 +6,10 @@ public class MainMenu : MonoBehaviour
     
     [SerializeField]
     CanvasGroup mainMenuCanvas;
+
+    [SerializeField]
+    AudioSource vfxAudioSource;
+
     public void OnClickPlayGame() {
         LeanTween.alphaCanvas(mainMenuCanvas,0,0.8f).setEase(LeanTweenType.easeInQuad).setOnComplete(DisableMainMenuCanvas);
     }
@@ -16,6 +20,10 @@ public class MainMenu : MonoBehaviour
 
     public void OnClickExitGame() {
         Application.Quit();
+    }
+
+    public void PlayButtonHoverSound() {
+        vfxAudioSource.Play();
     }
 
 }

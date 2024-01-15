@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HUDManager : MonoBehaviour
@@ -9,7 +7,11 @@ public class HUDManager : MonoBehaviour
     GameManager gameManager;
 
     [SerializeField]
-    CanvasGroup victoryCanvas, gameOverCanvas, tutorialCanvas, gameCanvas;
+    CanvasGroup victoryCanvas, gameOverCanvas, tutorialCanvas, gameCanvas, playersTurn, enemiesTurn;
+
+    void Start() {
+        LeanTween.init(1200);
+    }
 
     public void OnClickStartRound() {
         gameManager.StartGame();
@@ -41,5 +43,21 @@ public class HUDManager : MonoBehaviour
 
     public void FadeInGameCanvas() {        
         LeanTween.alphaCanvas(gameCanvas,1,0.8f).setEase(LeanTweenType.easeInQuad);
+    }
+
+    public void IsPlayersTurn() {
+        LeanTween.alphaCanvas(enemiesTurn,0,0.6f).setEase(LeanTweenType.easeInQuad).setOnComplete(FadeInPlayersTurnCanvas);
+    }
+
+    public void IsEnemiesTurn(){
+        LeanTween.alphaCanvas(playersTurn,0,0.6f).setEase(LeanTweenType.easeInQuad).setOnComplete(FadeInEnemiessTurnCanvas);
+    }
+
+    public void FadeInPlayersTurnCanvas() {        
+        LeanTween.alphaCanvas(playersTurn,1,0.8f).setEase(LeanTweenType.easeInQuad);
+    }
+
+    public void FadeInEnemiessTurnCanvas() {        
+        LeanTween.alphaCanvas(enemiesTurn,1,0.8f).setEase(LeanTweenType.easeInQuad);
     }
 }

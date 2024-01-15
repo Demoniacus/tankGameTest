@@ -43,21 +43,6 @@ public class GameManager : MonoBehaviour
         npc.gameStarted = true;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //If they aren't in moving round 
-        if(!arePlayersInMovingPhase && gameStarted) {
-            if(isPlayersTurn) {
-                if(!player.canFire) {
-                    player.canFire = true;
-                }
-            } else {
-                npc.canFire = true;
-            }
-        }
-    }
-
     private void InitializePlayers() {
         player.gameManager = this;
         player.audioManager = audioManager;
@@ -71,10 +56,14 @@ public class GameManager : MonoBehaviour
 
     public void PlayerFiredShot() {
         isPlayersTurn = false;
+        npc.canFire = true;
+        _HUDmanager.IsEnemiesTurn();
     }
 
     public void NPCFiredShot () {
         isPlayersTurn = true;
+        player.canFire = true;
+        _HUDmanager.IsPlayersTurn();
     }
 
 
@@ -87,6 +76,8 @@ public class GameManager : MonoBehaviour
         }
         arePlayersInMovingPhase = false;
         isPlayersTurn = true;
+        player.canFire = true;
+        _HUDmanager.FadeInPlayersTurnCanvas();
 
     }
 

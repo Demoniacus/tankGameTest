@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,19 +9,22 @@ public class GameManager : MonoBehaviour
     HUDManager _HUDmanager;
 
     [SerializeField]
-    PlayerController player;
+    PlayerController _player;
 
     [SerializeField]
-    NPCController npc;
+    NPCController _npc;
 
     [SerializeField]
-    Transform playerSpawnPoint;
+    Transform _playerSpawnPoint;
 
     [SerializeField]
-    Transform npcSpawnPoint;
+    Transform _npcSpawnPoint;
 
     [SerializeField]
-    Timer timer;
+    Timer _timer;
+
+    [SerializeField]
+    Logger _logger;
 
     void Start() {
         InitializePlayers();
@@ -28,38 +32,42 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        timer.StartTimer();
-        player.gameStarted = true;
-        npc.gameStarted = true;
+        Log("Game Is Starting!");
+        _timer.StartTimer();
+        _player.gameStarted = true;
+        _npc.gameStarted = true;
     }
 
     private void InitializePlayers() {
-        player.gameManager = this;
-        player.transform.position = playerSpawnPoint.position;
+        Log("InitalizingPlayers");
+        _player.gameManager = this;
+        _player.transform.position = _playerSpawnPoint.position;
 
-        npc.gameManager = this;
-        npc.spawnPoint = npcSpawnPoint;
-        npc.transform.position = npcSpawnPoint.position;
+        _npc.gameManager = this;
+        _npc.spawnPoint = _npcSpawnPoint;
+        _npc.transform.position = _npcSpawnPoint.position;
     }
 
     public void PlayerFiredShot() {
-        npc.canFire = true;
+        Log("Player Fired a Shot now is NPCs turn");
+        _npc.canFire = true;
         _HUDmanager.IsEnemiesTurn();
     }
 
     public void NPCFiredShot () {
-        player.canFire = true;
+        Log("NPC Fired a Shot now is Players turn");
+        _player.canFire = true;
         _HUDmanager.IsPlayersTurn();
     }
 
 
     public void FinishMovingTime() {
-        player.canMove = false;
-        if(player.isMoving) {
-            player.Break();
-            player.navMeshAgent.isStopped = true;
+        _player.canMove = false;
+        if(_player.isMoving) {
+            _player.Break();
+            _player.navMeshAgent.isStopped = true;
         }
-        player.canFire = true;
+        _player.canFire = true;
         _HUDmanager.FadeInPlayersTurnCanvas();
 
     }
@@ -74,5 +82,10 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    void Log(object message) {
+        if(_logger)
+            _logger.Log(message, this);
     }
 }

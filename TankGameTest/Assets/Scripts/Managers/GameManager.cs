@@ -3,8 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField]
-    AudioManager audioManager;
 
     [SerializeField]
     HUDManager _HUDmanager;
@@ -37,11 +35,9 @@ public class GameManager : MonoBehaviour
 
     private void InitializePlayers() {
         player.gameManager = this;
-        player.audioManager = audioManager;
         player.transform.position = playerSpawnPoint.position;
 
         npc.gameManager = this;
-        npc.audioManager = audioManager;
         npc.spawnPoint = npcSpawnPoint;
         npc.transform.position = npcSpawnPoint.position;
     }
@@ -60,8 +56,7 @@ public class GameManager : MonoBehaviour
     public void FinishMovingTime() {
         player.canMove = false;
         if(player.isMoving) {
-            player.isMoving = false;
-            audioManager.PlayBreakingSound();
+            player.Break();
             player.navMeshAgent.isStopped = true;
         }
         player.canFire = true;

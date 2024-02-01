@@ -146,6 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28f917ef4cdd3a2479c17875307f979f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thrust: 10
-  audioManager: {fileID: 0}
+  thrust: 100
   explosionSplash: {fileID: 3013455303268582857, guid: 9eb9da4bda95c2942bb66e8077f4733f, type: 3}
+  firedVFX: {fileID: 8300000, guid: 6ecbd61b3c9c7b0458c0da033538b80c, type: 3}
+  onHitVFX: {fileID: 8300000, guid: c4b44724edb13ae42bd02bb387cbeb67, type: 3}

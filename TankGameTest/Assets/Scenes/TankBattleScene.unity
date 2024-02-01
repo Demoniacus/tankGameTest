@@ -351,7 +351,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 877960938}
           m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
-          m_MethodName: PlayButtonHoverSound
+          m_MethodName: PlayHoverSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4309,11 +4309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18e4152ae0c1af44fa493ab3b68728cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vfxAudioSource: {fileID: 550357878}
-  breaksSound: {fileID: 8300000, guid: 8fe1667dbe251c347982b58e102ccc6f, type: 3}
-  movingSound: {fileID: 8300000, guid: f3fd6b44c454a2b478374d007781bf54, type: 3}
-  fireSound: {fileID: 8300000, guid: 6ecbd61b3c9c7b0458c0da033538b80c, type: 3}
-  hitTargetSound: {fileID: 8300000, guid: c4b44724edb13ae42bd02bb387cbeb67, type: 3}
+  VFXAudioPlayer: {fileID: 550357878}
   hoverSound: {fileID: 8300000, guid: f72b288089ee38f49a44baee58d02f11, type: 3}
 --- !u!114 &877960939
 MonoBehaviour:
@@ -4327,7 +4323,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 279ac7518d703b74c893f670aab2fd1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioManager: {fileID: 877960938}
   _HUDmanager: {fileID: 877960940}
   player: {fileID: 2111477014}
   npc: {fileID: 161974547}
@@ -5035,7 +5030,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 877960938}
           m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
-          m_MethodName: PlayButtonHoverSound
+          m_MethodName: PlayHoverSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -6671,7 +6666,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 877960938}
           m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
-          m_MethodName: PlayButtonHoverSound
+          m_MethodName: PlayHoverSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -6834,7 +6829,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 877960938}
           m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
-          m_MethodName: PlayButtonHoverSound
+          m_MethodName: PlayHoverSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -8223,7 +8218,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 877960938}
           m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
-          m_MethodName: PlayButtonHoverSound
+          m_MethodName: PlayHoverSound
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

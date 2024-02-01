@@ -4,7 +4,8 @@ using UnityEngine;
 public class ExplosionSplash : MonoBehaviour
 {
 
-    public GameObject explosionSpriteRenderer;
+    [SerializeField]
+    GameObject explosionSpriteRenderer;
     // Start is called before the first frame update
     void Start()
     {
@@ -12,7 +13,7 @@ public class ExplosionSplash : MonoBehaviour
     }
 
     IEnumerator RemoveExplosionLayer() {
-        yield return new WaitForSeconds(1.8f);
+        yield return new WaitForSeconds(1.6f);
         Destroy(explosionSpriteRenderer);
     }
 

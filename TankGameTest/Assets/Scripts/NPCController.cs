@@ -11,8 +11,6 @@ public class NPCController : MonoBehaviour
     public Transform spawnPoint;
 
     public GameManager gameManager {get; set;}
-
-    public AudioManager audioManager {get; set;}
     
     public bool gameStarted  {get; set;}
 
@@ -81,8 +79,7 @@ public class NPCController : MonoBehaviour
         ElevateTower();        
         yield return new WaitForSeconds(0.8f);
         IncreasePower();
-        audioManager.PlayFireSound();
-        proyectileSpawner.SpawnProyectile(projectileThrust, audioManager);
+        proyectileSpawner.SpawnProyectile(projectileThrust);
         //Duration of the shooting
         yield return new WaitForSeconds(1f);
         gameManager.NPCFiredShot();        
@@ -90,25 +87,24 @@ public class NPCController : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision other){
-        //next - check if we have collided with anything but player/enemy
+        //next - check if a projectile has entered our collision
         if(other.gameObject.tag == "Projectile"){
-            audioManager.PlayHitTargetSound();
             gameManager.PlayerWon();
         }
     }
 
     private void Rotate() {
-        float newRotation = Random.Range(-20,20);
+        float newRotation = Random.Range(-40,40);
         transform.Rotate(newRotation * Vector3.up);
     }
 
     private void ElevateTower() {        
-        float newElevation = Random.Range(-20,20);
+        float newElevation = Random.Range(-10,40);
         towerTransform.Rotate(newElevation * Vector3.right);
     }
 
     private void IncreasePower() {
-        projectileThrust += Random.Range(-18,18);
+        projectileThrust += Random.Range(-25,25);
         projectileThrust = Mathf.Clamp(projectileThrust, minProjectileThrust, maxProjectileThrust);
     }
 

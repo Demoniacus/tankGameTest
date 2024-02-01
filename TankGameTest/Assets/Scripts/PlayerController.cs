@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 {
 
     [SerializeField]
-    float reloadTime;
+    AudioClip breakingSoundVFX, movingSoundVFX;
     
     public Transform towerTransform;
 
@@ -63,14 +63,12 @@ public class PlayerController : MonoBehaviour
             if(canMove) {
                 if(isMoving) {
                     if(navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance + 1.6f) {
-                        audioManager.PlayBreakingSound();
-                        isMoving = false;
+                        Break();
                     }
 
                 }
                 //Check if player has pressed left click to move
-                if(Input.GetMouseButtonDown(0)) { 
-                    audioManager.PlayMovingSound();        
+                if(Input.GetMouseButtonDown(0)) {    
                     StartCoroutine(MovePlayer());
                 }
 
@@ -104,8 +102,7 @@ public class PlayerController : MonoBehaviour
 
                 if(canFire && Input.GetKeyDown(KeyCode.Space)) {
                     canFire = false;
-                    audioManager.PlayFireSound();
-                    proyectileSpawner.SpawnProyectile(projectileThrust, audioManager);
+                    proyectileSpawner.SpawnProyectile(projectileThrust);
                     gameManager.PlayerFiredShot();
                 }       
             }
@@ -113,6 +110,12 @@ public class PlayerController : MonoBehaviour
         }
         
     }
+
+    public void Break(){
+        AudioManager.instance.PlayVFX(breakingSoundVFX,0.1f,0.6f,false);
+        isMoving = false;
+    }
+
 
     private void UpdateTowerElevation(float isMovingUp) {
         float newElevation = 0.15f * isMovingUp;
@@ -130,8 +133,9 @@ public class PlayerController : MonoBehaviour
                         navMeshAgent.velocity = Vector3.zero; 
 
                         //Little delay of 0.3f just for game feel
-                        yield return new WaitForSeconds(0.3f);     
-
+                        yield return new WaitForSeconds(0.3f);
+                        
+                        AudioManager.instance.PlayVFX(movingSoundVFX,0.9f,0.4f,true);      
                         //Moving the tank to the new destination
                         navMeshAgent.SetDestination(hit.point);                            
                         isMoving = true;

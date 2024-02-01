@@ -3,56 +3,36 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
 
-    public AudioSource vfxAudioSource;
-    public AudioClip breaksSound;
+    [SerializeField]
+    AudioSource VFXAudioPlayer;
 
-    public AudioClip movingSound;
+    [SerializeField]
+    AudioClip hoverSound;
 
-    public AudioClip fireSound;
 
-    public AudioClip hitTargetSound;
+    public static AudioManager instance;
 
-    public AudioClip hoverSound;
-    
-    public void PlayMovingSound() {
-        //If the running sound is not already playing, play it on loop
-        if(!vfxAudioSource.isPlaying){
-            vfxAudioSource.volume = 0.9f;            
-            vfxAudioSource.pitch = 0.4f;
-            vfxAudioSource.clip = movingSound;
-            vfxAudioSource.loop = true;
-            vfxAudioSource.Play();
-        }
+    private void Awake() {
+
+        if (instance != null) 
+            Destroy(gameObject);
+        else 
+            instance = this;
+
+        DontDestroyOnLoad(gameObject);
     }
 
-    public void PlayBreakingSound() {
-        vfxAudioSource.volume = 0.1f;
-        vfxAudioSource.loop = false;
-        vfxAudioSource.pitch = 0.6f;
-        vfxAudioSource.clip = breaksSound;
-        vfxAudioSource.Play();
+    public void PlayVFX(AudioClip clipToPlay, float volume, float pitch, bool loop) {
+        VFXAudioPlayer.clip = clipToPlay;
+        VFXAudioPlayer.volume = volume;
+        VFXAudioPlayer.pitch = pitch;
+        VFXAudioPlayer.loop = loop;
+        VFXAudioPlayer.Play();
     }
 
-    public void PlayHitTargetSound() {
-        vfxAudioSource.volume = 1f;
-        vfxAudioSource.pitch = 1f;        
-        vfxAudioSource.clip = hitTargetSound;
-        vfxAudioSource.Play();
-    }
-
-
-    public void PlayFireSound() {
-        vfxAudioSource.volume = 1f;
-        vfxAudioSource.pitch = 1f;
-        vfxAudioSource.clip = fireSound;
-        vfxAudioSource.Play();
-    }
-
-    public void PlayButtonHoverSound() {
-        vfxAudioSource.volume = 1f;
-        vfxAudioSource.pitch = 1f;
-        vfxAudioSource.clip = hoverSound;
-        vfxAudioSource.Play();
+    public void PlayHoverSound() {
+        VFXAudioPlayer.clip = hoverSound;
+        VFXAudioPlayer.Play();
     }
 
 }

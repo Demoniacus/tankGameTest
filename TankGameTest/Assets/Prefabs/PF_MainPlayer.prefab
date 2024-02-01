@@ -174,8 +174,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b6f0aaf6010c294888aa305c22316d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reloadTime: 0
-  audioManager: {fileID: 0}
+  breakingSoundVFX: {fileID: 8300000, guid: 8fe1667dbe251c347982b58e102ccc6f, type: 3}
+  movingSoundVFX: {fileID: 8300000, guid: f3fd6b44c454a2b478374d007781bf54, type: 3}
+  towerTransform: {fileID: 0}
+  projectileThrustBar: {fileID: 0}
+  elevationBar: {fileID: 0}
 --- !u!1 &1931616275534915387
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,16 +2,17 @@ using UnityEngine;
 
 public class ProyectileLogic : MonoBehaviour
 {
-
     public float thrust;
-
-    public AudioManager audioManager;
 
     [SerializeField]
     GameObject explosionSplash;
 
+    [SerializeField]
+    AudioClip firedVFX,onHitVFX;
+
     void Start() {
         GetComponent<Rigidbody>().AddForce(transform.forward * thrust, ForceMode.Impulse);
+        AudioManager.instance.PlayVFX(firedVFX, 1f, 1f, false);
     }
 
     void OnCollisionEnter(Collision other){
@@ -20,9 +21,10 @@ public class ProyectileLogic : MonoBehaviour
             Destroy(gameObject);
         }
         else if(other.gameObject.tag == "Enemy"){
+            AudioManager.instance.PlayVFX(onHitVFX, 1f, 1f, false);    
             Destroy(gameObject);
         } else {
-            audioManager.PlayHitTargetSound();            
+            AudioManager.instance.PlayVFX(onHitVFX, 1f, 1f, false);       
             Instantiate(explosionSplash, other.GetContact(0).point, new Quaternion(0,0,0,0));
             Destroy(gameObject);
         }

@@ -18,9 +18,6 @@ public class Timer : MonoBehaviour
 
     private bool hasFireTimeStarted = false;
 
-    public void StartTimer() {
-        hasStarted = true;
-    }
 
     void Start() {
         int minutes = Mathf.FloorToInt(countDown / 60);        
@@ -53,4 +50,9 @@ public class Timer : MonoBehaviour
             }
         }        
     }
+
+        public void StartTimer() {
+        hasStarted = true;
+    }
+
 }
